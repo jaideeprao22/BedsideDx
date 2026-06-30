@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>BedsideDx — Digital Physical Exam (Research)</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root{--bg:#0d1117;--card:#161b22;--line:#30363d;--txt:#e6edf3;--mut:#8b949e;--acc:#2f81f7;--ok:#3fb950;--warn:#d29922;--bad:#f85149;--ref:#56d4dd}
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -12,7 +13,7 @@
   .sub{color:var(--mut);font-size:11px;margin:2px 0 8px}
   .disc{background:#3d2b00;border:1px solid var(--warn);color:#f0d488;font-size:11px;padding:7px 9px;border-radius:8px;margin-bottom:10px;line-height:1.4}
   .tabs{display:flex;gap:6px;margin-bottom:10px}
-  .tab{flex:1;text-align:center;padding:9px 4px;font-size:13px;font-weight:600;background:#161b22;border:1px solid var(--line);border-radius:8px;color:var(--mut)}
+  .tab{flex:1;text-align:center;padding:8px 3px;font-size:12px;font-weight:600;background:#161b22;border:1px solid var(--line);border-radius:8px;color:var(--mut)}
   .tab.on{background:#15233b;border-color:var(--acc);color:var(--txt)}
   .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px;margin-bottom:11px}
   label{display:block;font-size:11px;color:var(--mut);margin:7px 0 3px}
@@ -41,34 +42,56 @@
   audio{width:100%;margin-top:9px}
   svg.figure{width:100%;max-width:170px;display:block;margin:6px auto}
   .banner{font-size:11px;text-align:center;color:var(--ref);margin-bottom:2px;font-weight:600}
+  .howto{background:#0e2030;border:1px solid #1d5a8a;border-radius:10px;padding:10px 11px;font-size:12px;line-height:1.55;margin-bottom:11px}
+  .howto h3{margin:0 0 5px;font-size:13px;color:#7cc4ff}
+  .howto .m{margin-top:7px}.howto .m b{color:#e6edf3}
+  .howto .tag{display:inline-block;background:#15233b;border:1px solid #2f81f7;color:#9cd0ff;border-radius:6px;padding:1px 6px;font-size:10px;font-weight:700;margin-right:5px}
+  body[lang="te"]{font-family:'Noto Sans Telugu','Noto Sans',-apple-system,Roboto,sans-serif}
+  body[lang="te"] .tab{font-size:11px;padding:7px 2px}
+  #langBtn{position:fixed;top:8px;right:8px;width:auto;margin:0;padding:6px 12px;font-size:13px;background:#21262d;border:1px solid var(--line);z-index:50}
+  .vtog{display:flex;gap:6px;margin-bottom:8px}
+  .vtog button{margin-top:0;padding:8px 4px;font-size:13px;background:#21262d;border:1px solid var(--line)}
+  .vtog button.on{background:#15233b;border-color:var(--acc)}
+  .fluid{background:#0d1117;border:1px solid var(--line);border-radius:8px;padding:9px;font-size:12px;margin-top:8px;line-height:1.5;color:var(--mut)}
 </style>
 </head>
 <body>
-<h1><span class="brand">BedsideDx</span> · digital physical exam</h1>
-<div class="sub">Research instrument · percussion + auscultation + PPG, with within-patient referencing</div>
-<div class="disc"><b>NOT a diagnostic device.</b> All flags/indices are <b>uncalibrated</b> — real cut-offs come from your reference-standard data. Always confirm clinically.</div>
+<button id="langBtn" onclick="toggleLang()">తెలుగు</button>
+<h1 data-te='<span class="brand">BedsideDx</span> · డిజిటల్ ఫిజికల్ ఎగ్జామ్'><span class="brand">BedsideDx</span> · digital physical exam</h1>
+<div class="sub" data-te='రీసెర్చ్ పరికరం · పెర్కషన్ + ఆస్కల్టేషన్ + PPG, రోగి-లోపల రిఫరెన్స్‌తో'>Research instrument · percussion + auscultation + PPG, with within-patient referencing</div>
+<div class="disc" data-te='<b>ఇది డయాగ్నొస్టిక్ పరికరం కాదు.</b> అన్ని ఫ్లాగ్‌లు/విలువలు <b>అన్‌క్యాలిబ్రేటెడ్</b> — నిజమైన కట్-ఆఫ్‌లు మీ రిఫరెన్స్-స్టాండర్డ్ డేటా నుండి వస్తాయి. ఎల్లప్పుడూ క్లినికల్‌గా నిర్ధారించండి.'><b>NOT a diagnostic device.</b> All flags/indices are <b>uncalibrated</b> — real cut-offs come from your reference-standard data. Always confirm clinically.</div>
 
 <div class="card">
-  <div class="row"><div><label>Patient ID</label><input id="pid" placeholder="P001"></div><div><label>Age</label><input id="age" type="number" placeholder="yrs"></div><div><label>Sex</label><select id="sex"><option value="">—</option><option>M</option><option>F</option></select></div></div>
+  <div class="row"><div><label data-te='రోగి ఐడి'>Patient ID</label><input id="pid" placeholder="P001"></div><div><label data-te='వయసు'>Age</label><input id="age" type="number" placeholder="yrs"></div><div><label data-te='లింగం'>Sex</label><select id="sex"><option value="">—</option><option>M</option><option>F</option></select></div></div>
 </div>
 
 <div class="tabs">
-  <div class="tab on" id="t1" onclick="tab(1)">🔊 Percussion</div>
+  <div class="tab on" id="t1" onclick="tab(1)" data-te='🔊 పెర్కషన్'>🔊 Percussion</div>
   <div class="tab" id="t2" onclick="tab(2)">❤️ VascAge</div>
   <div class="tab" id="t3" onclick="tab(3)">🎯 EchoLat</div>
+  <div class="tab" id="t4" onclick="tab(4)" data-te='🫀 కార్డియో'>🫀 Cardio</div>
 </div>
 
 <!-- ================= PERCUSSION ================= -->
 <div class="pane on" id="p1">
 <div class="card">
-  <div class="row"><div><label>Position</label><select id="pos"><option>Supine</option><option>Rolled (lateral)</option><option>Sitting</option></select></div>
-  <div><label>Reference Dx (gold standard)</label><input id="ref" placeholder="e.g. USG: R pleural effusion"></div></div>
+  <div class="row"><div><label data-te='స్థానం'>Position</label><select id="pos"><option>Supine</option><option>Rolled (lateral)</option><option>Sitting</option></select></div>
+  <div><label data-te='రిఫరెన్స్ నిర్ధారణ (గోల్డ్ స్టాండర్డ్)'>Reference Dx (gold standard)</label><input id="ref" placeholder="e.g. USG: R pleural effusion"></div></div>
 </div>
 
 <div class="card">
-  <div class="banner">FRONT view · image-LEFT = patient's RIGHT</div>
-  <div class="note" style="text-align:center;margin-bottom:2px">1) Tap a <b>normal</b> zone → record it as REFERENCE. 2) Tap each suspicious zone → record. App compares to the reference.</div>
-  <div class="imgwrap"><img class="bodyimg" src="front.jpg" alt="chest"><div id="zones" class="overlay"></div></div>
+  <div class="howto" data-te='<h3>ఫోన్‌తో పెర్కషన్ ఎలా చేయాలి</h3>పెర్కషన్‌కు రెండు చేతులూ ఖాళీగా ఉంటాయి — ఫోన్ సెన్సింగ్ వేలి స్థానంలో పనిచేస్తుంది, దాన్ని గాలిలో పట్టుకోవాల్సిన అవసరం లేదు. మీ ఫోన్‌లో ఏది స్పష్టమైన టాప్ ఇస్తే అది వాడండి:<div class="m"><span class="tag">METHOD A</span><b>ఫోన్‌ను ప్లెక్సిమీటర్‌గా (సిఫార్సు).</b> ఫోన్‌ను <b>చదునుగా, గట్టిగా, స్క్రీన్ పైకి, మైక్-అంచు చర్మంపై</b> ఆ జోన్ మీద — నాన్-డామినెంట్ చేతితో నొక్కండి. డామినెంట్ మధ్య వేలితో <b>ఫోన్ పక్కనే</b> (1–2 cm దూరం) ఛాతీని గట్టిగా, ~1 సె వ్యవధిలో 5–6 సార్లు కొట్టండి. మీ ప్లెక్సిమీటర్ వేలు అనుభవించే ధ్వనిని ఫోన్ గ్రహిస్తుంది.</div><div class="m"><span class="tag">METHOD B</span><b>ఆస్కల్టేటరీ పెర్కషన్ (చేతులు ఖాళీ).</b> ఫోన్‌ను <b>ఒక స్థిర స్థానంలో</b> చదునుగా ఉంచండి (వెల్లకిలా పడుకున్న రోగి — గురుత్వాకర్షణ పట్టి ఉంచుతుంది). మిగతా చోట్ల <b>సాధారణ రెండు-చేతుల పద్ధతిలో</b> పెర్కస్ చేయండి; ప్రసారమైన ధ్వనిని ఫోన్ గ్రహిస్తుంది. కొట్టే స్థానం మార్చండి, ఫోన్ స్థిరంగా ఉంచండి, జోన్‌లను పోల్చండి.</div><div class="m"><span class="tag">FIELD</span>మీరు రెండు చేతులతో పెర్కస్ చేస్తుండగా రోగి లేదా సహాయకుడు ఫోన్‌ను ఆ స్థానంలో చదునుగా పట్టుకుంటారు.</div><div class="m" style="color:var(--mut)">నిశ్శబ్ద గది. ప్రతి టాప్‌కు ఒకే ఒత్తిడి. ముందు రోగి యొక్క స్పష్టమైన/రెసొనెంట్ జోన్‌ను <b>రిఫరెన్స్‌గా</b> రికార్డ్ చేయండి, తర్వాత అనుమానిత జోన్‌లను.</div>'>
+    <h3>How to percuss with the phone</h3>
+    Both hands stay free for percussion — the phone replaces the sensing finger, it doesn't need to be held in the air. Pick whichever gives a cleaner tap on your device:
+    <div class="m"><span class="tag">METHOD A</span><b>Phone as pleximeter (preferred).</b> Press the phone <b>flat and firm, screen up, mic-edge on bare skin</b>, over the zone — using your non-dominant hand. With your dominant middle finger, strike the chest <b>right beside the phone</b> (1–2 cm away), firmly, 5–6 times ~1 s apart. The phone senses the note your pleximeter finger used to feel.</div>
+    <div class="m"><span class="tag">METHOD B</span><b>Auscultatory percussion (hands-free).</b> Lay the phone flat on <b>one fixed spot</b> (supine patient — gravity holds it). Percuss elsewhere with your <b>normal two-handed technique</b>; the phone picks up the transmitted note. Move the percussing point, keep the phone still, compare zones.</div>
+    <div class="m"><span class="tag">FIELD</span>Patient or an assistant holds the phone flat on the spot while you percuss with both hands.</div>
+    <div class="m" style="color:var(--mut)">Quiet room. Same pressure every tap. Record the patient's clear/resonant zone <b>first</b> as the reference, then the suspicious zones.</div>
+  </div>
+  <div class="vtog"><button id="pvF" class="on" onclick="setPView('F')" data-te='ముందు (యాంటీరియర్ + లేటరల్)'>Front (anterior + lateral)</button><button id="pvB" onclick="setPView('B')" data-te='వెనుక (పోస్టీరియర్)'>Back (posterior)</button></div>
+  <div class="banner" id="pBanner">FRONT view · image-LEFT = patient's RIGHT</div>
+  <div class="note" style="text-align:center;margin-bottom:2px" data-te='1) ఒక <b>సాధారణ</b> జోన్‌ను టాప్ చేయండి → దాన్ని రిఫరెన్స్‌గా రికార్డ్ చేయండి. 2) ప్రతి అనుమానిత జోన్‌ను టాప్ చేసి రికార్డ్ చేయండి. యాప్ రిఫరెన్స్‌తో పోలుస్తుంది.'>1) Tap a <b>normal</b> zone → record it as REFERENCE. 2) Tap each suspicious zone → record. App compares to the reference.</div>
+  <div class="imgwrap"><img id="pImg" class="bodyimg" src="front.jpg" alt="chest"><div id="zones" class="overlay"></div></div>
   <div class="legend">
     <span><span class="dot" style="background:#1f6feb"></span>not done</span>
     <span><span class="dot" style="background:#d29922"></span>recording</span>
@@ -89,7 +112,7 @@
 </div>
 
 <div class="card res" id="resCard">
-  <div style="text-align:center;color:var(--mut);font-size:11px">RESULT vs reference (heuristic ⚠)</div>
+  <div style="text-align:center;color:var(--mut);font-size:11px" data-te='రిఫరెన్స్‌తో పోలిక (హ్యూరిస్టిక్ ⚠)'>RESULT vs reference (heuristic ⚠)</div>
   <div class="cls" id="cls">—</div>
   <div class="grid">
     <div class="kv">Peak freq<b id="pk">—</b>Hz</div>
@@ -97,23 +120,30 @@
     <div class="kv">Low:High<b id="lh">—</b></div>
     <div class="kv">Decay<b id="dc">—</b>ms</div>
   </div>
-  <button id="dlAudio" class="dl">⬇ Download this recording (.wav)</button>
+  <button id="dlAudio" class="dl" data-te='⬇ ఈ రికార్డింగ్ డౌన్‌లోడ్ (.wav)'>⬇ Download this recording (.wav)</button>
 </div>
 
-<div class="card"><button id="newPt" class="dl">↺ New patient (clears map, keeps log)</button></div>
+<div class="card"><button id="newPt" class="dl" data-te='↺ కొత్త రోగి (మ్యాప్ క్లియర్, లాగ్ ఉంచుతుంది)'>↺ New patient (clears map, keeps log)</button></div>
 
 <div class="card" id="logCard" style="display:none">
-  <b style="font-size:13px">Session log</b>
+  <b style="font-size:13px" data-te='సెషన్ లాగ్'>Session log</b>
   <div id="logTable"></div>
-  <button id="dlCsv" class="dl">⬇ Download session CSV</button>
+  <button id="dlCsv" class="dl" data-te='⬇ సెషన్ CSV డౌన్‌లోడ్'>⬇ Download session CSV</button>
 </div>
 </div>
 
 <!-- ================= VASCAGE ================= -->
 <div class="pane" id="p2">
 <div class="card">
-  <b style="font-size:13px">VascAge · fingertip PPG + CVD risk</b>
-  <div class="note" style="margin-top:5px"><b>Not</b> a "vascular age in years" yet — needs validation vs pulse-wave velocity / carotid IMT. No fabricated numbers.</div>
+  <b style="font-size:13px" data-te='VascAge · వేలికొన PPG + హృద్రోగ ప్రమాదం'>VascAge · fingertip PPG + CVD risk</b>
+  <div class="note" style="margin-top:5px" data-te='<b>ఇంకా</b> "సంవత్సరాలలో వాస్కులర్ వయసు" కాదు — పల్స్-వేవ్ వెలాసిటీ / కరోటిడ్ IMT‌తో వేలిడేషన్ అవసరం. కల్పిత సంఖ్యలు లేవు.'><b>Not</b> a "vascular age in years" yet — needs validation vs pulse-wave velocity / carotid IMT. No fabricated numbers.</div>
+  <div class="howto" data-te='<h3>వేలికొన PPG ఎలా రికార్డ్ చేయాలి</h3>ఫోన్ యొక్క <b>వెనుక కెమెరా లెన్స్ మరియు ఫ్లాష్ రెండింటినీ కలిపి</b> <b>చూపుడు వేలికొన</b> కండతో కప్పండి — రెండూ పూర్తిగా కప్పాలి, సందు ఉండకూడదు.<div class="m"><span class="tag">PRESSURE</span><b>తేలికగా, స్థిరంగా.</b> వేలిని ఆనించండి; గట్టిగా నొక్కితే రక్తం బయటకు పోయి సిగ్నల్ పోతుంది.</div><div class="m"><span class="tag">STILL</span>చేతిని టేబుల్‌పై ఆనించి పూర్తి క్యాప్చర్ సమయంలో కదలకుండా ఉంచండి. ఫ్లాష్ ఆన్‌లో ఉంటుంది; ఫ్లాష్ లేకపోతే → ప్రకాశవంతమైన పగటి వెలుతురులో కూర్చోండి.</div><div class="m" style="color:var(--mut)">లైవ్ ట్రేస్‌లో క్రమమైన పల్స్ తరంగాలు కనిపించే వరకు హార్ట్ రేట్‌ను నమ్మవద్దు.</div>'>
+    <h3>How to record fingertip PPG</h3>
+    Cover the phone's <b>rear camera lens AND flash together</b> with the pad of the <b>index fingertip</b> — both fully covered, no gap.
+    <div class="m"><span class="tag">PRESSURE</span><b>Light and steady.</b> Rest the finger on; pressing hard squeezes the blood out and kills the signal.</div>
+    <div class="m"><span class="tag">STILL</span>Rest the hand on a table and hold dead still for the whole capture. The flash stays on; no flash → sit in bright daylight.</div>
+    <div class="m" style="color:var(--mut)">Wait until the live trace shows regular pulse waves before trusting the heart rate.</div>
+  </div>
   <svg class="figure" viewBox="0 0 200 232" xmlns="http://www.w3.org/2000/svg">
     <rect x="56" y="120" width="92" height="88" rx="22" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
     <rect x="84" y="36" width="17" height="92" rx="8" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
@@ -123,14 +153,14 @@
     <rect x="62" y="48" width="17" height="80" rx="8" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
     <circle id="vSpot" cx="70" cy="50" r="13" fill="#1f6feb"/>
   </svg>
-  <div class="note" style="text-align:center;margin-top:-2px">Place the highlighted <b>index fingertip</b> on the rear camera + flash.</div>
+  <div class="note" style="text-align:center;margin-top:-2px" data-te='హైలైట్ చేసిన <b>చూపుడు వేలికొనను</b> వెనుక కెమెరా + ఫ్లాష్ మీద ఉంచండి.'>Place the highlighted <b>index fingertip</b> on the rear camera + flash.</div>
   <div class="legend"><span><span class="dot" style="background:#1f6feb"></span>ready</span><span><span class="dot" style="background:#d29922"></span>measuring</span><span><span class="dot" style="background:#2ea043"></span>captured</span></div>
-  <div class="row"><div><label>Smoker</label><select id="vSmoke"><option>No</option><option>Yes</option></select></div>
-  <div><label>Hypertension</label><select id="vHtn"><option>No</option><option>Yes</option></select></div>
-  <div><label>Diabetes</label><select id="vDm"><option>No</option><option>Yes</option></select></div></div>
-  <div class="row"><div><label>Height (cm)</label><input id="vHt" type="number" placeholder="170"></div><div><label>Weight (kg)</label><input id="vWt" type="number" placeholder="65"></div></div>
-  <button id="vBtn" class="rec">● Measure PPG (20s)</button>
-  <button id="vStop" class="stop" disabled>■ Stop</button>
+  <div class="row"><div><label data-te='ధూమపానం'>Smoker</label><select id="vSmoke"><option>No</option><option>Yes</option></select></div>
+  <div><label data-te='రక్తపోటు (హైపర్‌టెన్షన్)'>Hypertension</label><select id="vHtn"><option>No</option><option>Yes</option></select></div>
+  <div><label data-te='మధుమేహం'>Diabetes</label><select id="vDm"><option>No</option><option>Yes</option></select></div></div>
+  <div class="row"><div><label data-te='ఎత్తు (cm)'>Height (cm)</label><input id="vHt" type="number" placeholder="170"></div><div><label data-te='బరువు (kg)'>Weight (kg)</label><input id="vWt" type="number" placeholder="65"></div></div>
+  <button id="vBtn" class="rec" data-te='● PPG కొలవండి (20s)'>● Measure PPG (20s)</button>
+  <button id="vStop" class="stop" disabled data-te='■ ఆపండి'>■ Stop</button>
   <div id="vStatus" class="vst">Cover the REAR camera + flash with a fingertip. Use bright light if no torch.</div>
   <video id="vVid" playsinline muted style="display:none"></video>
   <canvas id="vWave"></canvas>
@@ -144,15 +174,22 @@
   </div>
   <div class="note" style="margin-top:6px">Risk factors present: <b id="vTallyN">0</b> — a tally, not a validated risk %. Compute WHO/Framingham risk in analysis.</div>
 </div>
-<div class="card" id="vLogCard" style="display:none"><b style="font-size:13px">PPG log</b><div id="vLogTable"></div><button id="vCsv" class="dl">⬇ Download PPG CSV</button></div>
+<div class="card" id="vLogCard" style="display:none"><b style="font-size:13px" data-te='PPG లాగ్'>PPG log</b><div id="vLogTable"></div><button id="vCsv" class="dl" data-te='⬇ PPG CSV డౌన్‌లోడ్'>⬇ Download PPG CSV</button></div>
 </div>
 
 <!-- ================= ECHOLAT ================= -->
 <div class="pane" id="p3">
 <div class="card">
-  <b style="font-size:13px">EchoLat · side-to-side breath-sound comparison</b>
-  <div class="note" style="margin-top:5px">Records each side <b>sequentially</b> (one mic) and compares high-frequency / adventitious energy. <b>Not</b> real-time 3-mic beamforming. Heuristic / uncalibrated.</div>
-  <div class="banner">BACK view · image-RIGHT = patient's RIGHT</div>
+  <b style="font-size:13px" data-te='EchoLat · పక్క-పక్క శ్వాస శబ్ద పోలిక'>EchoLat · side-to-side breath-sound comparison</b>
+  <div class="note" style="margin-top:5px" data-te='ప్రతి పక్కను <b>వరుసగా</b> (ఒక మైక్) రికార్డ్ చేసి హై-ఫ్రీక్వెన్సీ / అడ్వెంటీషియస్ ఎనర్జీని పోలుస్తుంది. <b>ఇది</b> రియల్-టైమ్ 3-మైక్ బీమ్‌ఫార్మింగ్ కాదు. హ్యూరిస్టిక్ / అన్‌క్యాలిబ్రేటెడ్.'>Records each side <b>sequentially</b> (one mic) and compares high-frequency / adventitious energy. <b>Not</b> real-time 3-mic beamforming. Heuristic / uncalibrated.</div>
+  <div class="howto" data-te='<h3>శ్వాస శబ్దాలు ఎలా రికార్డ్ చేయాలి</h3>రోగి <b>కూర్చొని, వీపు ఖాళీగా, కొద్దిగా ముందుకు వంగి.</b> ఫోన్ యొక్క <b>కింది (మైక్) అంచును చదునుగా, గట్టిగా</b> వీపుపై ఊపిరితిత్తి కింది భాగానికి ఆనించండి.<div class="m"><span class="tag">SAME SPOT</span><b>ముందు కుడి, తర్వాత ఎడమ</b> ను <b>అద్దం-ప్రతిబింబ స్థానంలో</b> రికార్డ్ చేయండి — యాప్ రెండు పక్కలను పోలుస్తుంది.</div><div class="m"><span class="tag">BREATHE</span>ప్రతి 15-సెకన్ల రికార్డింగ్‌లో రోగి <b>నోరు తెరిచి నెమ్మదిగా, లోతుగా శ్వాస</b> తీసుకుంటారు.</div><div class="m" style="color:var(--mut)">నిశ్శబ్ద గది. రికార్డింగ్ సమయంలో ఫోన్‌ను జరపవద్దు.</div>'>
+    <h3>How to record breath sounds</h3>
+    Patient <b>sitting, bare back, leaning slightly forward.</b> Press the phone's <b>bottom (mic) edge flat and firm</b> against the lung base on the back.
+    <div class="m"><span class="tag">SAME SPOT</span>Record <b>Right first, then Left</b> at the <b>mirror-image spot</b> — the app compares the two sides.</div>
+    <div class="m"><span class="tag">BREATHE</span>Patient takes <b>slow, deep breaths through an open mouth</b> through each 15-second recording.</div>
+    <div class="m" style="color:var(--mut)">Quiet room. Don't slide the phone during a recording.</div>
+  </div>
+  <div class="banner" data-te='వెనుక వ్యూ · ఇమేజ్-కుడి = రోగి కుడి'>BACK view · image-RIGHT = patient's RIGHT</div>
   <div class="imgwrap"><img class="bodyimg" src="back.jpg" alt="back"><div id="espots" class="overlay"></div></div>
   <div class="legend"><span><span class="dot" style="background:#1f6feb"></span>not done</span><span><span class="dot" style="background:#d29922"></span>recording</span><span><span class="dot" style="background:#2ea043"></span>done</span></div>
   <div id="eSelName" class="note" style="text-align:center;margin-bottom:2px">Tap a lung base on the figure (mic on posterior base; patient breathes deeply).</div>
@@ -168,13 +205,111 @@
   </div>
   <div class="cls" id="eVerdict" style="font-size:15px;margin-top:8px">—</div>
 </div>
-<div class="card" id="eLogCard" style="display:none"><b style="font-size:13px">EchoLat log</b><div id="eLogTable"></div><button id="eCsv" class="dl">⬇ Download EchoLat CSV</button></div>
+<div class="card" id="eLogCard" style="display:none"><b style="font-size:13px" data-te='EchoLat లాగ్'>EchoLat log</b><div id="eLogTable"></div><button id="eCsv" class="dl" data-te='⬇ EchoLat CSV డౌన్‌లోడ్'>⬇ Download EchoLat CSV</button></div>
+</div>
+
+<!-- ================= CARDIOSCOPE ================= -->
+<div class="pane" id="p4">
+<div class="card">
+  <b style="font-size:13px" data-te='🫀 Cardioscope · హృదయ-రక్తనాళ పరీక్ష'>🫀 Cardioscope · cardiovascular exam</b>
+  <div class="note" style="margin-top:5px" data-te='<b>ఆన్-డిమాండ్</b> గుండె లయ (ఛాతీపై ఫోన్ యాక్సిలరోమీటర్) + <b>మెడ / JVP స్పందన</b> (కెమెరా). కేవలం ఫ్లాగ్‌లు — <b>ఇది</b> నిర్ధారణ కాదు, <b>స్టెతస్కోప్</b> కాదు. రాత్రంతా పాసివ్ మానిటరింగ్‌కు నేటివ్ యాప్ అవసరం (స్క్రీన్ ఆఫ్ అయితే బ్రౌజర్‌లు సెన్సర్‌లను నిలిపివేస్తాయి).'><b>On-demand</b> heart-rhythm (phone accelerometer on the chest) + <b>neck / JVP pulsation</b> (camera). Flags only — <b>not</b> a diagnosis, <b>not</b> a stethoscope. Passive all-night monitoring needs the native app (browsers suspend sensors when the screen is off).</div>
+  <div class="row" style="margin-top:9px">
+    <div><button id="csTabA" class="dl" style="margin-top:0;padding:11px 4px;font-size:13px;background:#15233b;border:1px solid var(--acc)" data-te='❤️ లయ'>❤️ Rhythm</button></div>
+    <div><button id="csTabB" class="dl" style="margin-top:0;padding:11px 4px;font-size:13px" data-te='🩸 JVP'>🩸 JVP</button></div>
+    <div><button id="csTabC" class="dl" style="margin-top:0;padding:11px 4px;font-size:13px" data-te='🔊 శబ్దం'>🔊 Sound</button></div>
+  </div>
+</div>
+
+<!-- ---- Rhythm (SCG) ---- -->
+<div id="csA">
+<div class="card">
+  <div class="howto" data-te='<h3>లయ ఎలా చదవాలి (సీస్మోకార్డియోగ్రఫీ)</h3>రోగి పడుకొని లేదా కదలకుండా కూర్చొని. ఫోన్‌ను <b>చదునుగా, స్క్రీన్ పైకి, ఛాతీ మధ్యలో (కింది ఛాతీ ఎముకపై)</b> ఉంచండి. చేతులు తీసేసి, మామూలుగా శ్వాస తీసుకుంటూ, కౌంట్‌డౌన్ సమయంలో నిశ్శబ్దంగా ఉండండి — ఫోన్ ప్రతి గుండె కొట్టుకోవడాన్ని చిన్న కంపనంగా గ్రహిస్తుంది.<div class="m" style="color:var(--mut)">పడుకుంటే ఉత్తమం. ఫోన్ స్టెర్నమ్‌పై చదునుగా, పలుచని దుస్తులు లేదా ఖాళీ చర్మం. క్యాప్చర్ సమయంలో మాట్లాడవద్దు, కదలవద్దు.</div>'>
+    <h3>How to read rhythm (seismocardiography)</h3>
+    Patient lying down or sitting still. Place the phone <b>flat, screen up, on the centre of the chest (lower breastbone)</b>. Hands off, breathe normally, stay quiet for the countdown — the phone feels each heartbeat as a tiny vibration.
+    <div class="m" style="color:var(--mut)">Best lying down. Phone flat on the sternum, thin clothing or bare. No talking or moving during capture.</div>
+  </div>
+  <button id="csRec" class="rec" data-te='● 60-సెకన్ల లయ క్యాప్చర్ ప్రారంభం'>● Start 60-second rhythm capture</button>
+  <button id="csStop" class="stop" disabled data-te='■ ఆపండి'>■ Stop</button>
+  <div id="csStatus" class="vst">Phone flat on the chest, then Start.</div>
+  <canvas id="csWave"></canvas>
+</div>
+<div class="card res" id="csResCard">
+  <div class="cls" id="csVerdict">—</div>
+  <div class="grid">
+    <div class="kv">Heart rate<b id="csHR">—</b>bpm</div>
+    <div class="kv">Mean RR<b id="csRR">—</b>ms</div>
+    <div class="kv">RR variability (SDNN)<b id="csSD">—</b>ms</div>
+    <div class="kv">Signal quality<b id="csQ">—</b></div>
+  </div>
+  <div class="note" style="margin-top:6px" data-te='అసమానత <b>ఒక స్క్రీన్, నిర్ధారణ కాదు</b>. ఏదైనా "ఇర్రెగ్యులర్" ను ECG / హోల్టర్‌తో నిర్ధారించండి.'>Irregularity is a <b>screen, not a diagnosis</b>. Confirm any "irregular" with ECG / Holter.</div>
+</div>
+<div class="card" id="csLogCard" style="display:none"><b style="font-size:13px" data-te='లయ లాగ్'>Rhythm log</b><div id="csLogTable"></div><button id="csCsv" class="dl" data-te='⬇ లయ CSV డౌన్‌లోడ్'>⬇ Download rhythm CSV</button></div>
+</div>
+
+<!-- ---- JVP camera ---- -->
+<div id="csB" style="display:none">
+<div class="card">
+  <div class="howto" data-te='<h3>మెడ (JVP) ఎలా క్యాప్చర్ చేయాలి</h3>రోగి సుమారు 45° వెనక్కి వాలి, తల కొద్దిగా ఎడమవైపు తిప్పి, మెడపై మంచి వెలుతురు. <b>వెనుక కెమెరాను మెడ కుడివైపుకు</b> గురిపెట్టి, మెడను చుక్కల బాక్స్‌లో అమర్చండి. మోచేయిని ఆనించి కౌంట్‌డౌన్ సమయంలో స్థిరంగా ఉంచండి.<div class="m" style="color:var(--mut)">మంచి వెలుతురు, స్థిరమైన ఫోన్. యాప్ తాను చూసే స్పందన మరియు దాని రేటును గీస్తుంది — అది cm‌లో JVP ఎత్తు <b>ఇవ్వదు</b>; ఎత్తును స్టెర్నల్ యాంగిల్‌కు ఎదురుగా క్లినికల్‌గా చదవండి.</div>'>
+    <h3>How to capture the neck (JVP)</h3>
+    Patient semi-reclined ~45°, head turned slightly to their left, neck well lit. Point the <b>rear camera at the right side of the neck</b> and fit the neck inside the dashed box. Brace your elbow and hold steady for the countdown.
+    <div class="m" style="color:var(--mut)">Good light, steady phone. The app plots the pulsation it sees and its rate — it does <b>not</b> give a JVP height in cm; read height clinically against the sternal angle.</div>
+  </div>
+  <div class="row"><div><label data-te='స్టెర్నల్ యాంగిల్ పైన JVP ఎత్తు (cm, కంటితో)'>JVP height above sternal angle (cm, by eye)</label><input id="jHeight" type="number" step="0.5" placeholder="e.g. 3"></div><div><label data-te='హెపాటోజుగులర్ రిఫ్లక్స్'>Hepatojugular reflux</label><select id="jHJR"><option value="">—</option><option>Negative</option><option>Positive</option></select></div></div>
+  <div class="imgwrap" style="max-width:360px">
+    <video id="jVid" playsinline muted style="width:100%;border-radius:10px;background:#000;display:block"></video>
+    <div id="jBox" style="position:absolute;left:38%;top:12%;width:24%;height:66%;border:2px dashed #56d4dd;border-radius:6px;pointer-events:none"></div>
+  </div>
+  <button id="jRec" class="rec" data-te='● 15-సెకన్ల మెడ క్యాప్చర్ ప్రారంభం'>● Start 15-second neck capture</button>
+  <button id="jStop" class="stop" disabled data-te='■ ఆపండి'>■ Stop</button>
+  <div id="jStatus" class="vst">Frame the neck in the box, then Start.</div>
+  <canvas id="jWave"></canvas>
+</div>
+<div class="card res" id="jResCard">
+  <div class="cls" id="jVerdict" style="font-size:15px">—</div>
+  <div class="grid">
+    <div class="kv">Pulsation rate<b id="jRate">—</b>/min</div>
+    <div class="kv">Rel. amplitude<b id="jAmp">—</b>a.u.</div>
+  </div>
+  <div class="fluid" id="jFluid">Enter the JVP height you read by eye (cm above the sternal angle) to get a fluid-status read.</div>
+  <div class="note" style="margin-top:6px" data-te='అన్‌క్యాలిబ్రేటెడ్ స్పందన విజువలైజర్. కెమెరా స్పందన మరియు దాని రేటును చూపుతుంది; <b>JVP ఎత్తును స్టెర్నల్ యాంగిల్‌కు ఎదురుగా కంటితో చదవాలి</b> — ఫ్లూయిడ్-స్టేటస్ ఫ్లాగ్ మీరు ఎంటర్ చేసిన cm విలువను వాడుతుంది, వీడియోను కాదు.'>Uncalibrated pulsation visualizer. The camera shows the pulsation and its rate; <b>JVP height is read by eye against the sternal angle</b> — the fluid-status flag uses the cm value you enter, not the video.</div>
+</div>
+<div class="card" id="jLogCard" style="display:none"><b style="font-size:13px" data-te='JVP లాగ్'>JVP log</b><div id="jLogTable"></div><button id="jCsv" class="dl" data-te='⬇ JVP CSV డౌన్‌లోడ్'>⬇ Download JVP CSV</button></div>
+</div>
+
+<!-- ---- Heart sound (PCG) ---- -->
+<div id="csC" style="display:none">
+<div class="card">
+  <div class="howto" data-te='<h3>గుండె శబ్దాలు (PCG) ఎలా రికార్డ్ చేయాలి</h3>రోగి కూర్చొని లేదా పడుకొని, <b>ఛాతీ ఖాళీగా, నిశ్శబ్ద గది.</b> ఫోన్ యొక్క <b>కింది (మైక్) అంచును గట్టిగా చదునుగా</b> గుండెపై — కింది-ఎడమ ఛాతీ, ఎడమ ముచ్చిక కింద (కార్డియాక్ ఎపెక్స్) ఆనించండి. స్థిరంగా ఉంచండి; రోగి మెల్లగా శ్వాస తీసుకుంటారు లేదా కొద్దిసేపు శ్వాస ఆపుతారు.<div class="m"><span class="tag">LISTEN</span>నిజమైన గుండె శబ్దాలను <b>.wav</b> కు రికార్డ్ చేసి రేటు + లయ క్రమబద్ధతను అంచనా వేస్తుంది. మర్మర్‌లు లేదా వాల్వ్ వ్యాధిని <b>గుర్తించదు</b>.</div><div class="m" style="color:var(--mut)">సంఖ్యను నమ్మే ముందు ట్రేస్ శుభ్రమైన లబ్-డబ్ బీట్‌ల్లా ఉందో చూడండి.</div>'>
+    <h3>How to record heart sounds (PCG)</h3>
+    Patient sitting or lying, <b>bare chest, quiet room.</b> Press the phone's <b>bottom (mic) edge firmly flat</b> over the heart — lower-left chest, just below the left nipple (cardiac apex). Hold still; patient breathes gently or briefly holds breath.
+    <div class="m"><span class="tag">LISTEN</span>Records the actual heart sounds to a <b>.wav</b> and estimates rate + rhythm regularity. Does <b>not</b> detect murmurs or valve disease.</div>
+    <div class="m" style="color:var(--mut)">Check the trace looks like clean lub-dub beats before trusting the number.</div>
+  </div>
+  <button id="pcRec" class="rec" data-te='● గుండె శబ్దం రికార్డ్ (15s)'>● Record heart sound (15s)</button>
+  <button id="pcStop" class="stop" disabled data-te='■ ఆపండి'>■ Stop</button>
+  <div id="pcStatus" class="vst">Phone mic-edge on the cardiac apex, quiet room, then Start.</div>
+  <canvas id="pcWave"></canvas>
+  <audio id="pcPlayer" controls style="display:none"></audio>
+</div>
+<div class="card res" id="pcResCard">
+  <div class="cls" id="pcVerdict">—</div>
+  <div class="grid">
+    <div class="kv">Heart rate<b id="pcHR">—</b>bpm</div>
+    <div class="kv">Rhythm<b id="pcReg">—</b></div>
+    <div class="kv">Confidence<b id="pcConf">—</b></div>
+    <div class="kv">Signal quality<b id="pcQ">—</b></div>
+  </div>
+  <button id="pcDl" class="dl" data-te='⬇ ఈ రికార్డింగ్ డౌన్‌లోడ్ (.wav)'>⬇ Download this recording (.wav)</button>
+  <div class="note" style="margin-top:6px" data-te='రేటు/లయ <b>ఒక స్క్రీన్, నిర్ధారణ కాదు</b>, మరియు ఇది <b>మర్మర్</b> డిటెక్టర్ కాదు. క్లినికల్‌గా నిర్ధారించండి.'>Rate/rhythm is a <b>screen, not a diagnosis</b>, and this is <b>not</b> a murmur detector. Confirm clinically.</div>
+</div>
+<div class="card" id="pcLogCard" style="display:none"><b style="font-size:13px" data-te='గుండె-శబ్దం లాగ్'>Heart-sound log</b><div id="pcLogTable"></div><button id="pcCsv" class="dl" data-te='⬇ గుండె-శబ్దం CSV డౌన్‌లోడ్'>⬇ Download heart-sound CSV</button></div>
+</div>
 </div>
 
 <script>
 const $=id=>document.getElementById(id);
 const st=m=>$('status').textContent=m;
-function tab(n){for(let i=1;i<=3;i++){$('t'+i).classList.toggle('on',i===n);$('p'+i).classList.toggle('on',i===n);}}
+function tab(n){for(let i=1;i<=4;i++){$('t'+i).classList.toggle('on',i===n);$('p'+i).classList.toggle('on',i===n);}}
 function dl(b,name){const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;a.click();}
 function fft(re,im){const n=re.length;
   for(let i=1,j=0;i<n;i++){let bit=n>>1;for(;j&bit;bit>>=1)j^=bit;j^=bit;if(i<j){let tr=re[i];re[i]=re[j];re[j]=tr;let ti=im[i];im[i]=im[j];im[j]=ti;}}
@@ -185,25 +320,33 @@ function fft(re,im){const n=re.length;
 
 /* ===================== PERCUSSION ===================== */
 const Z=[
- {id:'R-Upper',px:36.33,py:21.40},{id:'L-Upper',px:65.26,py:21.40},
- {id:'R-Mid',px:36.04,py:38.04},{id:'L-Mid',px:65.37,py:38.01},
- {id:'R-Lower',px:34.54,py:51.68},{id:'L-Lower',px:66.78,py:51.68},
- {id:'R-Flank',px:22.81,py:61.03},{id:'L-Flank',px:78.46,py:61.02}
+ {id:'R Supraclavicular',code:'Sc',view:'F',px:41,py:15},{id:'L Supraclavicular',code:'Sc',view:'F',px:60,py:15},
+ {id:'R Infraclavicular',code:'Ic',view:'F',px:37,py:25},{id:'L Infraclavicular',code:'Ic',view:'F',px:64,py:25},
+ {id:'R Mammary',code:'M',view:'F',px:37,py:38},{id:'L Mammary',code:'M',view:'F',px:65,py:38},
+ {id:'R Inframammary',code:'Im',view:'F',px:35.5,py:52},{id:'L Inframammary',code:'Im',view:'F',px:66.5,py:52},
+ {id:'R Axillary',code:'Ax',view:'F',px:20,py:40},{id:'L Axillary',code:'Ax',view:'F',px:80,py:40},
+ {id:'R Infra-axillary',code:'IA',view:'F',px:22,py:58},{id:'L Infra-axillary',code:'IA',view:'F',px:78,py:58},
+ {id:'R Suprascapular',code:'Ss',view:'B',px:62,py:22},{id:'L Suprascapular',code:'Ss',view:'B',px:38,py:22},
+ {id:'R Interscapular',code:'In',view:'B',px:57,py:38},{id:'L Interscapular',code:'In',view:'B',px:43,py:38},
+ {id:'R Infrascapular',code:'If',view:'B',px:61,py:53},{id:'L Infrascapular',code:'If',view:'B',px:39,py:53}
 ];
-let state={},selected=null,refFeat=null,refZone=null,wavBlob=null,rows=[];
+let state={},selected=null,refFeat=null,refZone=null,wavBlob=null,rows=[],pView='F';
 function resetState(){state={};Z.forEach(z=>state[z.id]={status:'pending',feat:null,isRef:false,flag:false});selected=null;refFeat=null;refZone=null;$('resCard').style.display='none';$('selName').textContent='Tap a zone on the body above.';$('recBtn').textContent='● Select a zone first';$('recBtn').disabled=true;renderBody();}
 function zoneColor(s){if(s.status==='active')return '#d29922';if(s.status==='done')return '#2ea043';return '#1f6feb';}
 function renderBody(){
   const g=$('zones');g.innerHTML='';
-  Z.forEach(z=>{const s=state[z.id];
+  Z.forEach(z=>{if(z.view!==pView)return;const s=state[z.id];
    const d=document.createElement('div');d.className='dot2';
-   d.style.left=z.px+'%';d.style.top=z.py+'%';d.style.width='4.8%';
+   d.style.left=z.px+'%';d.style.top=z.py+'%';d.style.width='5.6%';d.textContent=z.code;d.style.fontSize='9px';
    d.style.background=zoneColor(s);
    if(z.id===selected){d.style.borderColor='#fff';d.style.borderWidth='3px';d.style.boxShadow='0 0 0 4px rgba(255,255,255,.3)';}
    else if(s.isRef){d.style.borderColor='#56d4dd';d.style.borderWidth='3px';}
    else if(s.flag){d.style.borderColor='#f85149';d.style.borderWidth='3px';}
    d.onclick=()=>selectZone(z.id);g.appendChild(d);});
 }
+function setPView(v){pView=v;$('pImg').src=(v==='F'?'front.jpg':'back.jpg');
+  $('pBanner').textContent=(v==='F'?"FRONT view · image-LEFT = patient's RIGHT":"BACK view · image-RIGHT = patient's RIGHT");
+  $('pvF').classList.toggle('on',v==='F');$('pvB').classList.toggle('on',v==='B');renderBody();}
 function selectZone(id){
   Z.forEach(z=>{const zs=state[z.id];if(z.id!==id&&zs.status==='active')zs.status=zs.feat?'done':'pending';});
   selected=id;state[id].status='active';
@@ -488,6 +631,235 @@ $('eCsv').onclick=()=>{let c='patient_id,age,sex,hf_pct_R,hf_pct_L,centroid_R,ce
 function eRenderLog(){let h='<table><tr><th>ID</th><th>HF R%</th><th>HF L%</th><th>Δpp</th><th>Verdict</th></tr>';
   eRows.forEach(r=>h+='<tr><td>'+r.pid+'</td><td>'+r.hfr+'</td><td>'+r.hfl+'</td><td>'+r.diff+'</td><td>'+r.verdict.split(':')[0]+'</td></tr>');
   $('eLogTable').innerHTML=h+'</table>';}
+
+/* ===================== CARDIOSCOPE ===================== */
+function csTab(which){const map={a:'csA',b:'csB',c:'csC'},btn={a:'csTabA',b:'csTabB',c:'csTabC'};
+  for(const k in map){$(map[k]).style.display=(k===which)?'block':'none';
+    $(btn[k]).style.background=(k===which)?'#15233b':'#21262d';
+    $(btn[k]).style.border=(k===which)?'1px solid var(--acc)':'1px solid var(--line)';}}
+$('csTabA').onclick=()=>csTab('a');$('csTabB').onclick=()=>csTab('b');$('csTabC').onclick=()=>csTab('c');
+
+/* shared: detrend + time-domain beat detection */
+function detectBeats(sig,t,minMs){const N=sig.length;
+  const durSec=(t[N-1]-t[0])/1000||1,sr=N/durSec;
+  const w=Math.max(2,Math.round(0.6*sr)),d=new Float32Array(N);
+  for(let i=0;i<N;i++){let a=0,c=0;for(let j=Math.max(0,i-w);j<=Math.min(N-1,i+w);j++){a+=sig[j];c++;}d[i]=sig[i]-a/c;}
+  let mx=0;for(let i=0;i<N;i++)mx=Math.max(mx,Math.abs(d[i]));if(mx>0)for(let i=0;i<N;i++)d[i]/=mx;
+  const thr=0.3;let peaks=[],lastT=-1;
+  for(let i=1;i<N-1;i++){if(d[i]>thr&&d[i]>=d[i-1]&&d[i]>d[i+1]){if(lastT<0||t[i]-lastT>=minMs){peaks.push(i);lastT=t[i];}}}
+  return{d,peaks,sr};}
+function rrStats(peaks,t){let rr=[];for(let k=1;k<peaks.length;k++)rr.push(t[peaks[k]]-t[peaks[k-1]]);
+  const good=rr.filter(v=>v>=300&&v<=1800);if(good.length<4)return null;
+  const med=a=>{a=a.slice().sort((x,y)=>x-y);return a[Math.floor(a.length/2)];};
+  const mean=good.reduce((p,c)=>p+c,0)/good.length;
+  const sd=Math.sqrt(good.reduce((p,c)=>p+(c-mean)*(c-mean),0)/good.length);
+  let irr=0;good.forEach(v=>{if(Math.abs(v-mean)/mean>0.20)irr++;});
+  return{rr:good,hr:Math.round(60000/med(good)),meanRR:Math.round(mean),sd:Math.round(sd),irrFrac:irr/good.length};}
+
+/* --- Rhythm via accelerometer (SCG) --- */
+let csRun=false,csMag=[],csT=[],csT0=0,csWake=null,csHandler=null,csTimer=null,csRows=[];
+const csSt=m=>$('csStatus').textContent=m;
+$('csRec').onclick=async()=>{
+  if(!$('pid').value){csSt('Enter Patient ID (top of page) first.');return;}
+  try{if(typeof DeviceMotionEvent!=='undefined'&&typeof DeviceMotionEvent.requestPermission==='function'){
+    const p=await DeviceMotionEvent.requestPermission();if(p!=='granted'){csSt('Motion access denied — enable Motion & Orientation in Settings, reload.');return;}}}catch(e){}
+  if(typeof DeviceMotionEvent==='undefined'){csSt('No motion sensor exposed by this browser — use the native app for rhythm.');return;}
+  csMag=[];csT=[];csRun=true;csT0=performance.now();
+  try{if(navigator.wakeLock)csWake=await navigator.wakeLock.request('screen');}catch(e){csWake=null;}
+  $('csRec').disabled=true;$('csStop').disabled=false;$('csResCard').style.display='none';
+  csHandler=ev=>{if(!csRun)return;let a=ev.acceleration;if(!a||a.x==null)a=ev.accelerationIncludingGravity;if(!a||a.x==null)return;
+    csMag.push(Math.sqrt(a.x*a.x+a.y*a.y+a.z*a.z));csT.push(performance.now()-csT0);csDrawLive();};
+  window.addEventListener('devicemotion',csHandler);
+  let left=60;csSt('● Recording… phone flat & still on chest ('+left+'s)');
+  csTimer=setInterval(()=>{left--;csSt('● Recording… still ('+left+'s)');if(left<=0)csStopR();},1000);
+  setTimeout(()=>{if(csRun&&csMag.length<20){csSt('No motion data arriving — sensor blocked. Use the native app.');csStopR();}},3000);};
+$('csStop').onclick=csStopR;
+function csStopR(){csRun=false;clearInterval(csTimer);
+  if(csHandler)window.removeEventListener('devicemotion',csHandler);
+  if(csWake){try{csWake.release();}catch(e){}csWake=null;}
+  $('csRec').disabled=false;$('csStop').disabled=true;
+  if(csMag.length<60){csSt('Too little signal. Lie still, phone flat on the sternum, retry.');return;}
+  csAnalyze();}
+function csAnalyze(){
+  const r=detectBeats(csMag,csT,300),stt=rrStats(r.peaks,csT);
+  csDrawFinal(r.d,r.peaks);
+  if(!stt){$('csVerdict').textContent='Signal too weak to read';$('csVerdict').style.color='var(--mut)';
+    $('csHR').textContent='—';$('csRR').textContent='—';$('csSD').textContent='—';$('csQ').textContent='Poor';
+    $('csResCard').style.display='block';csSt('Weak SCG. Lie down, phone flat on lower sternum, fully still.');return;}
+  const q=r.sr>=40&&stt.rr.length>=15?'Good':(stt.rr.length>=8?'Fair':'Low');
+  let verdict,col;if(stt.irrFrac>=0.20){verdict='Irregular rhythm flag ⚠';col='var(--bad)';}else{verdict='Regular rhythm';col='var(--ok)';}
+  $('csVerdict').textContent=verdict+' · ~'+r.sr.toFixed(0)+' Hz';$('csVerdict').style.color=col;
+  $('csHR').textContent=stt.hr;$('csRR').textContent=stt.meanRR;$('csSD').textContent=stt.sd;$('csQ').textContent=q;
+  $('csResCard').style.display='block';csSt('Done. Tap Start to repeat.');
+  csRows.push({pid:$('pid').value,age:$('age').value,sex:$('sex').value,hr:stt.hr,meanRR:stt.meanRR,sdnn:stt.sd,
+    irr:(stt.irrFrac*100).toFixed(0),nbeats:r.peaks.length,sr:r.sr.toFixed(0),verdict:verdict,t:new Date().toISOString()});
+  csRenderLog();$('csLogCard').style.display='block';}
+function csDrawLive(){const c=$('csWave');c.style.display='block';c.width=c.clientWidth*2;c.height=180;
+  const g=c.getContext('2d'),W=c.width,H=c.height,n=Math.min(csMag.length,400);g.fillStyle='#0d1117';g.fillRect(0,0,W,H);if(n<2)return;
+  const seg=csMag.slice(csMag.length-n);let mn=Math.min.apply(null,seg),mx=Math.max.apply(null,seg),rng=(mx-mn)||1;
+  g.strokeStyle='#f85149';g.lineWidth=2;g.beginPath();
+  for(let i=0;i<n;i++){const x=i/(n-1)*W,y=H-((seg[i]-mn)/rng)*H*0.9-H*0.05;i?g.lineTo(x,y):g.moveTo(x,y);}g.stroke();}
+function csDrawFinal(d,peaks){const c=$('csWave');c.style.display='block';c.width=c.clientWidth*2;c.height=180;
+  const g=c.getContext('2d'),W=c.width,H=c.height,N=d.length;g.fillStyle='#0d1117';g.fillRect(0,0,W,H);
+  g.strokeStyle='#2f81f7';g.lineWidth=1.3;g.beginPath();
+  for(let i=0;i<N;i++){const x=i/(N-1)*W,y=H/2-d[i]*H*0.42;i?g.lineTo(x,y):g.moveTo(x,y);}g.stroke();
+  g.fillStyle='#3fb950';peaks.forEach(p=>{const x=p/(N-1)*W,y=H/2-d[p]*H*0.42;g.beginPath();g.arc(x,y,4,0,6.2832);g.fill();});}
+$('csCsv').onclick=()=>{let c='patient_id,age,sex,heart_rate_bpm,mean_rr_ms,sdnn_ms,irregular_beat_pct,n_beats,sample_hz,verdict,datetime\n';
+  csRows.forEach(r=>c+=[r.pid,r.age,r.sex,r.hr,r.meanRR,r.sdnn,r.irr,r.nbeats,r.sr,'"'+r.verdict+'"',r.t].join(',')+'\n');
+  dl(new Blob([c],{type:'text/csv'}),'bedsidedx_cardioscope_rhythm.csv');};
+function csRenderLog(){let h='<table><tr><th>ID</th><th>HR</th><th>RR</th><th>SDNN</th><th>Irr%</th><th>Rhythm</th></tr>';
+  csRows.forEach(r=>h+='<tr><td>'+r.pid+'</td><td>'+r.hr+'</td><td>'+r.meanRR+'</td><td>'+r.sdnn+'</td><td>'+r.irr+'</td><td>'+r.verdict.split(' ')[0]+'</td></tr>');
+  $('csLogTable').innerHTML=h+'</table>';}
+
+/* --- JVP via camera --- */
+let jStream=null,jRun=false,jData=[],jT=[],jT0=0,jRAF=null,jTmp=null,jTorch=false,jRows=[];
+const jSt=m=>$('jStatus').textContent=m;
+function jFluidEval(){const h=parseFloat($('jHeight').value);const hjr=$('jHJR').value;const el=$('jFluid');if(!el)return;
+  if(isNaN(h)){el.innerHTML='Enter the JVP height you read by eye (cm above the sternal angle) to get a fluid-status read.';el.style.color='var(--mut)';return;}
+  const cmH2O=(h+5).toFixed(0);let txt,col;
+  if(h<3){txt='<b>Normal JVP</b> (~'+cmH2O+' cmH\u2082O est.). No venous congestion by height.';col='var(--ok)';}
+  else if(h<4){txt='<b>Borderline JVP</b> (~'+cmH2O+' cmH\u2082O est.). Watch; correlate with symptoms.';col='var(--warn)';}
+  else{txt='<b>Elevated JVP</b> (~'+cmH2O+' cmH\u2082O est.) — suggests <b>fluid overload / right-heart failure (CHF)</b>. Correlate clinically.';col='var(--bad)';}
+  if(hjr==='Positive')txt+=' Hepatojugular reflux positive — supports volume overload.';
+  el.innerHTML=txt;el.style.color=col;}
+if($('jHeight')){$('jHeight').oninput=jFluidEval;}if($('jHJR')){$('jHJR').onchange=jFluidEval;}
+$('jRec').onclick=async()=>{
+  if(!$('pid').value){jSt('Enter Patient ID (top of page) first.');return;}
+  try{jStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:640},height:{ideal:480}},audio:false});}
+  catch(e){jSt('Camera blocked. Allow camera and reload.');return;}
+  const track=jStream.getVideoTracks()[0];jTorch=false;
+  try{const caps=track.getCapabilities?track.getCapabilities():{};if(caps.torch){await track.applyConstraints({advanced:[{torch:true}]});jTorch=true;}}catch(e){}
+  const vid=$('jVid');vid.srcObject=jStream;try{await vid.play();}catch(e){}
+  jData=[];jT=[];jRun=true;jT0=performance.now();
+  $('jRec').disabled=true;$('jStop').disabled=false;$('jResCard').style.display='none';
+  if(!jTmp){jTmp=document.createElement('canvas');jTmp.width=64;jTmp.height=64;}
+  const cc=jTmp.getContext('2d',{willReadFrequently:true});
+  function frame(){
+    if(!jRun)return;const now=performance.now();
+    try{cc.drawImage(vid,0,0,64,64);const d=cc.getImageData(24,8,16,42).data;
+      let s=0,c=0;for(let i=0;i<d.length;i+=4){s+=(d[i]*0.299+d[i+1]*0.587+d[i+2]*0.114);c++;}
+      jData.push(s/c);jT.push(now-jT0);}catch(e){}
+    const left=Math.max(0,15000-(now-jT0));
+    jSt((jTorch?'Light ON. ':'')+'Recording neck '+(left/1000).toFixed(0)+'s — hold steady');
+    jDrawLive();
+    if(now-jT0>=15000){jStopR();return;}
+    jRAF=requestAnimationFrame(frame);}
+  jRAF=requestAnimationFrame(frame);};
+$('jStop').onclick=jStopR;
+function jStopR(){jRun=false;if(jRAF)cancelAnimationFrame(jRAF);
+  if(jStream)jStream.getTracks().forEach(t=>t.stop());
+  $('jRec').disabled=false;$('jStop').disabled=true;
+  if(jData.length<30){jSt('No signal. Better light, fill the box with the neck, retry.');return;}
+  jAnalyze();}
+function jAnalyze(){
+  const r=detectBeats(jData,jT,500);jDrawFinal(r.d,r.peaks);
+  let rr=[];for(let k=1;k<r.peaks.length;k++){const v=jT[r.peaks[k]]-jT[r.peaks[k-1]];if(v>=500&&v<=2000)rr.push(v);}
+  let amp=0;for(let i=0;i<r.d.length;i++)amp=Math.max(amp,Math.abs(r.d[i]));
+  if(rr.length<3){$('jVerdict').textContent='No clear pulsation seen';$('jVerdict').style.color='var(--mut)';
+    $('jRate').textContent='—';$('jAmp').textContent='—';$('jResCard').style.display='block';
+    jSt('No rhythmic pulsation detected. Re-light, steady the phone, fill the box with the neck.');return;}
+  const med=a=>{a=a.slice().sort((x,y)=>x-y);return a[Math.floor(a.length/2)];};
+  const rate=Math.round(60000/med(rr));
+  $('jVerdict').textContent='Pulsation detected · '+rate+'/min';$('jVerdict').style.color='var(--ok)';
+  $('jRate').textContent=rate;$('jAmp').textContent=(amp*100).toFixed(1);
+  $('jResCard').style.display='block';jFluidEval();jSt('Done. Inspect the trace. Tap Start to repeat.');
+  jRows.push({pid:$('pid').value,age:$('age').value,sex:$('sex').value,rate:rate,amp:(amp*100).toFixed(1),sr:r.sr.toFixed(0),jvph:$('jHeight').value,hjr:$('jHJR').value,t:new Date().toISOString()});
+  jRenderLog();$('jLogCard').style.display='block';}
+function jDrawLive(){const c=$('jWave');c.style.display='block';c.width=c.clientWidth*2;c.height=180;
+  const g=c.getContext('2d'),W=c.width,H=c.height,n=Math.min(jData.length,300);g.fillStyle='#0d1117';g.fillRect(0,0,W,H);if(n<2)return;
+  const seg=jData.slice(jData.length-n);let mn=Math.min.apply(null,seg),mx=Math.max.apply(null,seg),rng=(mx-mn)||1;
+  g.strokeStyle='#56d4dd';g.lineWidth=2;g.beginPath();
+  for(let i=0;i<n;i++){const x=i/(n-1)*W,y=H-((seg[i]-mn)/rng)*H*0.9-H*0.05;i?g.lineTo(x,y):g.moveTo(x,y);}g.stroke();}
+function jDrawFinal(d,peaks){const c=$('jWave');c.style.display='block';c.width=c.clientWidth*2;c.height=180;
+  const g=c.getContext('2d'),W=c.width,H=c.height,N=d.length;g.fillStyle='#0d1117';g.fillRect(0,0,W,H);
+  g.strokeStyle='#56d4dd';g.lineWidth=1.3;g.beginPath();
+  for(let i=0;i<N;i++){const x=i/(N-1)*W,y=H/2-d[i]*H*0.42;i?g.lineTo(x,y):g.moveTo(x,y);}g.stroke();
+  g.fillStyle='#3fb950';peaks.forEach(p=>{const x=p/(N-1)*W,y=H/2-d[p]*H*0.42;g.beginPath();g.arc(x,y,3.5,0,6.2832);g.fill();});}
+$('jCsv').onclick=()=>{let c='patient_id,age,sex,pulsation_rate_per_min,rel_amplitude_au,sample_fps,jvp_height_cm,hepatojugular_reflux,datetime\n';
+  jRows.forEach(r=>c+=[r.pid,r.age,r.sex,r.rate,r.amp,r.sr,r.jvph,r.hjr,r.t].join(',')+'\n');
+  dl(new Blob([c],{type:'text/csv'}),'bedsidedx_cardioscope_jvp.csv');};
+function jRenderLog(){let h='<table><tr><th>ID</th><th>Rate/min</th><th>Amp</th></tr>';
+  jRows.forEach(r=>h+='<tr><td>'+r.pid+'</td><td>'+r.rate+'</td><td>'+r.amp+'</td></tr>');
+  $('jLogTable').innerHTML=h+'</table>';}
+
+/* --- Heart sound (PCG) via microphone --- */
+let pcStream,pcCtx,pcProc,pcZg,pcBuf=[],pcSr=48000,pcWav=null,pcRows=[],pcTimer,pcLeft;
+const pcSt=m=>$('pcStatus').textContent=m;
+$('pcRec').onclick=async()=>{
+  if(!$('pid').value){pcSt('Enter Patient ID (top of page) first.');return;}
+  try{pcStream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false,channelCount:1}});}
+  catch(e){pcSt('Microphone blocked. Allow mic and reload.');return;}
+  pcCtx=new (window.AudioContext||window.webkitAudioContext)();pcSr=pcCtx.sampleRate;pcBuf=[];
+  const src=pcCtx.createMediaStreamSource(pcStream);pcProc=pcCtx.createScriptProcessor(4096,1,1);pcZg=pcCtx.createGain();pcZg.gain.value=0;
+  pcProc.onaudioprocess=ev=>pcBuf.push(new Float32Array(ev.inputBuffer.getChannelData(0)));
+  src.connect(pcProc);pcProc.connect(pcZg);pcZg.connect(pcCtx.destination);
+  $('pcRec').disabled=true;$('pcStop').disabled=false;$('pcResCard').style.display='none';
+  pcLeft=15;pcSt('● Recording… mic on the apex, quiet, still ('+pcLeft+'s)');
+  pcTimer=setInterval(()=>{pcLeft--;pcSt('● Recording… ('+pcLeft+'s)');if(pcLeft<=0)pcStopRec();},1000);
+};
+$('pcStop').onclick=pcStopRec;
+function pcStopRec(){
+  clearInterval(pcTimer);try{pcProc.disconnect();}catch(e){}
+  if(pcStream)pcStream.getTracks().forEach(t=>t.stop());
+  $('pcRec').disabled=false;$('pcStop').disabled=true;pcSt('Analysing…');
+  let n=0;pcBuf.forEach(b=>n+=b.length);
+  if(n<pcSr){pcSt('Too short — record ~15s.');try{pcCtx.close();}catch(e){}return;}
+  const s=new Float32Array(n);let o=0;pcBuf.forEach(b=>{s.set(b,o);o+=b.length;});try{pcCtx.close();}catch(e){}
+  pcWav=encodeWAV(s,pcSr);const p=$('pcPlayer');p.src=URL.createObjectURL(pcWav);p.style.display='block';
+  pcDraw(s);pcAnalyze(s,pcSr);
+}
+function pcAnalyze(s,fs){
+  let rms=0;for(let i=0;i<s.length;i++)rms+=s[i]*s[i];rms=Math.sqrt(rms/s.length);
+  const f=Math.max(1,Math.round(fs/1000)),fd=fs/f,L=Math.floor(s.length/f),ds=new Float32Array(L);
+  for(let i=0;i<L;i++){let a=0;for(let j=0;j<f;j++)a+=s[i*f+j];ds[i]=a/f;}
+  let mx=0;for(let i=0;i<L;i++)mx=Math.max(mx,Math.abs(ds[i]));if(mx>0)for(let i=0;i<L;i++)ds[i]/=mx;
+  const se=new Float32Array(L);for(let i=0;i<L;i++){const x=ds[i]*ds[i];se[i]=x>1e-9?-x*Math.log(x):0;}
+  const w=Math.max(1,Math.round(0.05*fd)),env=new Float32Array(L);let run=0;
+  for(let i=0;i<L;i++){run+=se[i];if(i>=w)run-=se[i-w];env[i]=run/Math.min(i+1,w);}
+  let em=0;for(let i=0;i<L;i++)em+=env[i];em/=L;for(let i=0;i<L;i++)env[i]-=em;
+  const lo=Math.round(fd*0.333),hi=Math.round(fd*1.5);let e0=0;for(let i=0;i<L;i++)e0+=env[i]*env[i];
+  let bestLag=0,bestC=-1;
+  for(let lag=lo;lag<=hi&&lag<L;lag++){let c=0;for(let i=0;i<L-lag;i++)c+=env[i]*env[i+lag];c/=(e0||1);if(c>bestC){bestC=c;bestLag=lag;}}
+  const bpm=bestLag?Math.round(60*fd/bestLag):0;
+  const uncertain=(bestC<0.2||rms<0.008||!bpm);
+  let verdict,col,reg,q;
+  if(uncertain){verdict='Signal too weak / noisy — reposition, quieter room';col='var(--mut)';reg='—';q='Poor';$('pcHR').textContent='—';}
+  else{
+    $('pcHR').textContent=bpm;reg=bestC>=0.5?'Regular':'Irregular?';
+    const rateNote=bpm<60?'brady':(bpm>100?'tachy':'60–100');
+    if(bestC>=0.5){verdict='Regular rhythm · '+bpm+' bpm ('+rateNote+')';col=(bpm<60||bpm>100)?'var(--warn)':'var(--ok)';}
+    else{verdict='Irregular / uncertain ⚠ — refer';col='var(--bad)';}
+    q=bestC>=0.5?'Good':(bestC>=0.3?'Fair':'Low');
+  }
+  $('pcVerdict').textContent=verdict;$('pcVerdict').style.color=col;
+  $('pcReg').textContent=reg;$('pcConf').textContent=bestC.toFixed(2);$('pcQ').textContent=q;
+  $('pcResCard').style.display='block';
+  pcSt('Done. Check the trace looks like clean lub-dub beats before trusting the number.');
+  if(!uncertain){pcRows.push({pid:$('pid').value,age:$('age').value,sex:$('sex').value,bpm:bpm,reg:bestC>=0.5?'reg':'irreg',conf:bestC.toFixed(2),t:new Date().toISOString()});
+    pcRenderLog();$('pcLogCard').style.display='block';}
+}
+function pcDraw(s){const c=$('pcWave');c.style.display='block';c.width=c.clientWidth*2;c.height=180;
+  const g=c.getContext('2d'),W=c.width,H=c.height,step=Math.floor(s.length/W)||1;
+  g.fillStyle='#0d1117';g.fillRect(0,0,W,H);g.strokeStyle='#2f81f7';g.lineWidth=1;g.beginPath();
+  for(let x=0;x<W;x++){let mn=1,mx=-1;for(let j=0;j<step;j++){const v=s[x*step+j]||0;mn=Math.min(mn,v);mx=Math.max(mx,v);}
+    g.moveTo(x,H/2*(1-mx)+H/4);g.lineTo(x,H/2*(1-mn)+H/4);}g.stroke();}
+$('pcDl').onclick=()=>{if(pcWav)dl(pcWav,($('pid').value||'rec')+'_pcg_'+Date.now()+'.wav');};
+$('pcCsv').onclick=()=>{let c='patient_id,age,sex,heart_rate_bpm,rhythm,confidence,datetime\n';
+  pcRows.forEach(r=>c+=[r.pid,r.age,r.sex,r.bpm,r.reg,r.conf,r.t].join(',')+'\n');
+  dl(new Blob([c],{type:'text/csv'}),'bedsidedx_cardioscope_heartsound.csv');};
+function pcRenderLog(){let h='<table><tr><th>ID</th><th>BPM</th><th>Rhythm</th><th>Conf</th></tr>';
+  pcRows.forEach(r=>h+='<tr><td>'+r.pid+'</td><td>'+r.bpm+'</td><td>'+r.reg+'</td><td>'+r.conf+'</td></tr>');
+  $('pcLogTable').innerHTML=h+'</table>';}
+
+/* ===== bilingual EN/Telugu ===== */
+function applyLang(l){document.body.setAttribute('lang',l);
+  document.querySelectorAll('[data-te]').forEach(function(el){
+    if(!el.hasAttribute('data-en'))el.setAttribute('data-en',el.innerHTML);
+    el.innerHTML=(l==='te')?el.getAttribute('data-te'):el.getAttribute('data-en');});
+  var b=document.getElementById('langBtn');if(b)b.textContent=(l==='te')?'English':'తెలుగు';
+  try{localStorage.setItem('bedsidedx_lang',l);}catch(e){}}
+function toggleLang(){applyLang(document.body.getAttribute('lang')==='te'?'en':'te');}
+applyLang((function(){try{return localStorage.getItem('bedsidedx_lang')||'en';}catch(e){return 'en';}})());
 </script>
 </body>
 </html>
