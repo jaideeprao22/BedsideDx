@@ -294,6 +294,7 @@
 </div>
 <div class="card res" id="pcResCard">
   <div class="cls" id="pcVerdict">—</div>
+  <div id="pcSig" style="display:none;font-size:13px;font-weight:600;margin-top:3px">📶 —</div>
   <div class="cls" id="pcAI" style="display:none;margin-top:2px">🧠 AI screen: —</div>
   <div id="pcAIsub" style="display:none;color:var(--mut);font-size:11px;margin:2px 0 4px" data-te='ఆన్-డివైస్ AI మోడల్ (CirCor + CinC హృదయ-శబ్ద డేటాపై శిక్షణ). స్క్రీనింగ్ మాత్రమే — నిర్ధారణ కాదు.'>On-device AI model (trained on CirCor + CinC heart-sound data). Screening only — not a diagnosis.</div>
   <div class="grid">
@@ -859,17 +860,19 @@ function pcRenderLog(){let h='<table><tr><th>ID</th><th>BPM</th><th>Rhythm</th><
 /* ===== Cardioscope on-device AI: murmur/abnormal heart-sound screen (TF.js) ===== */
 const PC_SR2=2000,PC_NFFT=512,PC_HOP=64,PC_NMEL=64,PC_TFR=157,PC_LWAV=10000,PC_NB=PC_NFFT/2+1,PC_THR=0.084;
 const PC_WIN=new Float32Array(PC_NFFT);for(let n=0;n<PC_NFFT;n++)PC_WIN[n]=0.5-0.5*Math.cos(2*Math.PI*n/PC_NFFT);
-let pcModel=null,pcMel=null,pcModelLoading=null;
+let pcModel=null,pcMel=null,pcModelLoading=null,pcModelErr='';
 async function pcLoadModel(){
   if(pcModel&&pcMel)return true;
   if(pcModelLoading)return pcModelLoading;
   pcModelLoading=(async()=>{
     try{
-      if(typeof tf==='undefined')throw new Error('tfjs not loaded');
-      pcMel=(await (await fetch('mel_filter.json')).json()).mel;
+      if(typeof tf==='undefined')throw new Error('tfjs library not loaded (check internet)');
+      const mr=await fetch('mel_filter.json');
+      if(!mr.ok)throw new Error('mel_filter.json → '+mr.status+' (upload it next to index.html)');
+      pcMel=(await mr.json()).mel;
       pcModel=await tf.loadLayersModel('model.json');
       pcSelfTest();return true;
-    }catch(e){console.error('AI model load failed',e);return false;}
+    }catch(e){pcModelErr=e.message||String(e);console.error('AI model load failed:',e);return false;}
   })();
   return pcModelLoading;
 }
@@ -907,11 +910,37 @@ function pcLogMel(x){
 function pcInfer(feat){return tf.tidy(()=>{const x=tf.tensor4d(feat,[1,PC_NMEL,PC_TFR,1]);return pcModel.predict(x).dataSync()[0];});}
 function pcGenTest(){const n=PC_LWAV,out=new Float32Array(n);for(let i=0;i<n;i++){const t=i/PC_SR2;out[i]=Math.sin(2*Math.PI*50*t)+0.5*Math.sin(2*Math.PI*150*t)+0.25*Math.sin(2*Math.PI*300*t);}return out;}
 function pcSelfTest(){try{const p=pcInfer(pcLogMel(pcGenTest()));console.log('AI engine self-check prob='+p.toFixed(4)+' ('+(Math.abs(p-0.011)<0.03?'PASS':'DRIFT')+')');}catch(e){console.warn('self-test skipped',e);}}
+function pcHeartSignal(s,fs){
+  const x=pcResample(s,fs,PC_SR2),N=512,H=256,NB=N/2+1;
+  const avg=new Float64Array(NB),re=new Float64Array(N),im=new Float64Array(N);let nw=0;
+  for(let off=0;off+N<=x.length;off+=H){
+    for(let k=0;k<N;k++){re[k]=x[off+k]*PC_WIN[k];im[k]=0;}
+    fft(re,im);
+    for(let b=0;b<NB;b++)avg[b]+=re[b]*re[b]+im[b]*im[b];
+    nw++;}
+  if(nw>0)for(let b=0;b<NB;b++)avg[b]/=nw;
+  const binHz=PC_SR2/N,bandE=(lo,hi)=>{let e=0;for(let b=0;b<NB;b++){const f=b*binHz;if(f>=lo&&f<hi)e+=avg[b];}return e;};
+  const eLow=bandE(20,150),eMid=bandE(150,600),eHigh=bandE(600,1000),eTot=eLow+eMid+eHigh+1e-12;
+  const ratioLow=eLow/eTot;
+  let rms=0;for(let i=0;i<x.length;i++)rms+=x[i]*x[i];rms=Math.sqrt(rms/x.length);
+  let verdict,ok,col;
+  if(rms<0.003){verdict='No signal — mic isn\'t picking up anything';ok=false;col='var(--mut)';}
+  else if(ratioLow>=0.55){verdict='Heart-sound signal detected ✓';ok=true;col='var(--ok)';}
+  else if(ratioLow>=0.35){verdict='Weak / partial heart sound — press firmer, reposition';ok=true;col='var(--warn)';}
+  else{verdict='Mostly room noise — use a stethoscope coupler';ok=false;col='var(--bad)';}
+  return {ratioLow:ratioLow,rms:rms,verdict:verdict,ok:ok,col:col};
+}
 async function pcMLScreen(s,fs,pcRow){
-  const el=$('pcAI'),sub=$('pcAIsub');el.style.display='block';sub.style.display='block';
+  const el=$('pcAI'),sub=$('pcAIsub'),sig=$('pcSig');
+  const q=pcHeartSignal(s,fs);
+  sig.style.display='block';sig.textContent='📶 '+q.verdict+'  ('+(q.ratioLow*100).toFixed(0)+'% low-band)';sig.style.color=q.col;
+  el.style.display='block';sub.style.display='block';
+  if(!q.ok){el.textContent='🧠 AI screen: skipped — signal not usable';el.style.color='var(--mut)';
+    sub.textContent='The AI needs clean heart sound. Fix acquisition (stethoscope coupler / firmer contact / quieter room), then re-record.';return;}
   el.textContent='🧠 AI screen: loading model…';el.style.color='var(--mut)';
   const ok=await pcLoadModel();
-  if(!ok){el.textContent='🧠 AI screen unavailable (model file not found)';el.style.color='var(--mut)';return;}
+  if(!ok){el.textContent='🧠 AI screen unavailable — '+pcModelErr;el.style.color='var(--mut)';
+    sub.textContent='Model files must sit in the same folder as index.html.';return;}
   try{
     const p=pcInfer(pcLogMel(pcResample(s,fs,PC_SR2))),pos=p>=PC_THR;
     el.textContent=pos?'🧠 AI heart-sound screen: SCREEN POSITIVE — refer for clinical assessment':'🧠 AI heart-sound screen: Screen negative';
