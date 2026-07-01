@@ -929,7 +929,7 @@ function pcHeartSignal(s,fs){
   let verdict,ok,col;
   if(rms<0.0004){verdict='Mic silent — no input at all (check mic permission / port)';ok=false;col='var(--mut)';}
   else if(ratioLow>=0.5){verdict=(rms<0.006?'Faint but heart-band signal — amplify to check':'Heart-sound signal detected ✓');ok=true;col=(rms<0.006?'var(--warn)':'var(--ok)');}
-  else if(ratioLow>=0.35){verdict='Weak / partial heart sound — press firmer, reposition';ok=true;col='var(--warn)';}
+  else if(ratioLow>=0.35){verdict='Weak / partial — too noisy for a reliable AI screen. Improve capture';ok=false;col='var(--warn)';}
   else{verdict='Mostly high-freq noise — reposition or use a coupler';ok=false;col='var(--bad)';}
   return {ratioLow:ratioLow,rms:rms,verdict:verdict,ok:ok,col:col};
 }
@@ -939,14 +939,17 @@ async function pcAmplifyPlay(){
     const s=pcLastBuf,fs=pcSr,oac=new OfflineAudioContext(1,s.length,fs);
     const buf=oac.createBuffer(1,s.length,fs);buf.copyToChannel(Float32Array.from(s),0);
     const src=oac.createBufferSource();src.buffer=buf;
-    const hp=oac.createBiquadFilter();hp.type='highpass';hp.frequency.value=20;
-    const lp=oac.createBiquadFilter();lp.type='lowpass';lp.frequency.value=150;
-    src.connect(hp);hp.connect(lp);lp.connect(oac.destination);src.start();
+    const hp1=oac.createBiquadFilter();hp1.type='highpass';hp1.frequency.value=20;
+    const hp2=oac.createBiquadFilter();hp2.type='highpass';hp2.frequency.value=20;
+    const lp1=oac.createBiquadFilter();lp1.type='lowpass';lp1.frequency.value=150;
+    const lp2=oac.createBiquadFilter();lp2.type='lowpass';lp2.frequency.value=150;
+    const comp=oac.createDynamicsCompressor();comp.threshold.value=-45;comp.knee.value=30;comp.ratio.value=12;comp.attack.value=0.003;comp.release.value=0.25;
+    src.connect(hp1);hp1.connect(hp2);hp2.connect(lp1);lp1.connect(lp2);lp2.connect(comp);comp.connect(oac.destination);src.start();
     const r=await oac.startRendering();let o=r.getChannelData(0);
     let mx=1e-6;for(let i=0;i<o.length;i++){const a=Math.abs(o[i]);if(a>mx)mx=a;}
-    const g=0.9/mx,amp=new Float32Array(o.length);for(let i=0;i<o.length;i++)amp[i]=o[i]*g;
+    const g=0.97/mx,amp=new Float32Array(o.length);for(let i=0;i<o.length;i++)amp[i]=o[i]*g;
     const wav=encodeWAV(amp,fs),p=$('pcPlayer');p.src=URL.createObjectURL(wav);p.style.display='block';pcDraw(amp);p.play();
-    pcSt('Amplified + heart-band filtered (20–150 Hz). If heart sounds were captured you should now HEAR lub-dub.');
+    pcSt('Amplified hard + heart-band filtered (20–150 Hz) + compressed. Listen for lub-dub under the noise.');
   }catch(e){console.error(e);pcSt('Amplify failed on this device.');}
 }
 async function pcMLScreen(s,fs,pcRow){
